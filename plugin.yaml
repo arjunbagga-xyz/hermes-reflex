@@ -1,0 +1,83 @@
+manifest_version: 2
+name: hermes-reflex
+version: 1.0.0
+description: "Skill-to-executable-code reflex compiler with parameter injection, 3-gate pre-trust verification, Curator archive recovery, and two-tier native Hermes GenUI with a draggable sticky-note pinboard pane."
+author: "Arjun Bagga"
+license: "MIT"
+homepage: "https://github.com/arjunbagga-xyz/hermes-reflex"
+repository: "https://github.com/arjunbagga-xyz/hermes-reflex"
+requires_hermes: ">=0.23.0"
+
+categories:
+  - workflow
+  - memory
+  - developer-tools
+
+tags:
+  - skills
+  - reflex-compiler
+  - genui
+  - curator
+  - archive
+
+python_dependencies:
+  - "pydantic>=2.5,<3.0"
+  - "fastapi>=0.109,<1.0"
+  - "pyyaml>=6.0,<7.0"
+
+provides_tools:
+  - reflex_compile_skill
+  - reflex_run_skill
+  - reflex_audit_archive
+  - reflex_pin_widget
+
+provides_hooks:
+  - pre_llm_call
+  - transform_llm_output
+  - on_skill_lifecycle
+  - post_curator_run
+
+config_schema:
+  auto_compile_on_patch:
+    type: bool
+    default: true
+    description: "Automatically re-compile and test skills when SKILL.md is created or patched."
+  auto_rescue_archived_skills:
+    type: bool
+    default: true
+    description: "Automatically rescue procedural skills from the .archive/ black hole using Bayesian Laplace smoothing."
+  enable_genui_transform:
+    type: bool
+    default: true
+    description: "Enable post-output GenUI visual synthesis on final assistant responses."
+  enable_genui_llm_pass:
+    type: bool
+    default: true
+    description: "Allow a single structured LLM call (ctx.llm.complete_structured) on prose-heavy outputs to synthesize charts, diagrams, or interactive controls."
+  min_prose_chars_for_genui_llm:
+    type: int
+    default: 280
+    description: "Minimum character length of assistant prose response before invoking the Tier-2 structured LLM visual pass."
+  max_compile_repair_attempts:
+    type: int
+    default: 1
+    description: "Maximum LLM self-repair attempts if a compiled skill fails synthetic dry-run verification."
+  shadow_speedup_ratio:
+    type: float
+    default: 0.9
+    description: "Required duration ratio (code_duration <= prose_duration * ratio) to promote a tested skill to TRUSTED."
+  skills_root_override:
+    type: str
+    default: ""
+    description: "Optional custom path to Hermes skills directory (defaults to ~/.hermes/skills)."
+
+web:
+  enabled: true
+  mount_path: /reflex
+
+desktop:
+  enabled: true
+  entry: desktop/plugin.js
+  surfaces:
+    - transcript
+    - sidebar

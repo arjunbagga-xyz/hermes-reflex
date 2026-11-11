@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68.0,<72.0", "wheel>=0.42,<1.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hermes-reflex"
+version = "1.0.0"
+description = "Skill-to-executable-code reflex compiler with parameter injection, 3-gate pre-trust verification, Curator archive recovery, and two-tier native Hermes GenUI with a draggable sticky-note pinboard pane."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Arjun Bagga", email = "arjunbagga.xyz@gmail.com" }]
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic>=2.5,<3.0",
+    "fastapi>=0.109,<1.0",
+    "pyyaml>=6.0,<7.0",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=8.0,<10.0",
+]
+
+[tool.setuptools]
+py-modules = []
+packages = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+norecursedirs = [".*", "__pycache__", "dashboard", "desktop", "web"]
